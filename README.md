@@ -27,6 +27,34 @@ This repository contains the official implementation of the AAAI 2026 paper "Sli
 ## 🔥News
 * [2025-11] Our work is accepted to AAAI 2026!
 
+## 🛠️ Environment
+1. Create a new conda environment
+```sh
+conda create -n pptagent python=3.11
+```
+2. Install dependency
+```sh
+pip install -r requirements.txt
+```
+3. Prepare your API key (named as api_keys.json)
+
+```
+{
+"openai_api_key": "sk-proj-1234"
+}
+```
+
+### Inference
+
+```
+sh run.sh
+```
+
+### Evaluation
+
+```
+sh eval.sh
+```
 
 
 ## 🎓 Citation

@@ -1,0 +1,37 @@
+system_prompt: |
+  You are given a parsed layout dictionary representing a PowerPoint slide template, along with the slide's width and height. Your task is to refine the layout to improve visual quality, with an emphasis on better spatial utilization and clearer visual hierarchy. Ensure that all elements remain within the slide boundaries defined by slide_width and slide_height, and that the aspect ratio of the images is maintained. Make minimal changes to the layout since the template is already good. Return only the modified layout dictionary.
+
+template: |
+  Instructions:
+  You are given a parsed layout dictionary representing a PowerPoint slide, along with the slide's width and height. Your task is to refine the layout to improve visual quality, with an emphasis on better spatial utilization and clearer visual hierarchy. Do not change the aspect ratio of the images. Note that you should only make minimal changes to the layout since the template is usually already good. Return only the modified layout dictionary.
+
+
+  Rules for Layout Refinement:
+  1. Maximize space usage: Avoid large empty areas, especially on the bottom of the slide.
+  2. Prioritize image enlargement: If extra space is available, increase the size of images rather than expanding text boxes. May keep the image in a nearby position and change its size.
+  3. Maintain image aspect ratio: If resizing or moving an image, ensure the aspect ratio is maintained. This is a crucial rule that must be followed.
+  4. Fit the image into the available space: If the image is wide or tall, fit it into the available space by moving it around.
+  5. Maintain the area of text boxes: Since the text content is already provided, resizing text boxes will not be effective. But you can change the shape or move them around.
+  6. Do not move or resize FreeShape elements.
+  7. Usually, the main textbox at the top is the slide title. Do not move or resize it.
+  8. Ensure non-overlapping layout: Avoid overlaps between any elements. 
+  9. Make sure the number of elements remains the same as the original layout. (no elements added or removed)
+  10. Do not place or resize any element such that it exceeds the slide's width (`slide_width`) or height (`slide_height`).
+
+  Output:
+  Return only the updated layout dictionary. Do not generate any other text. Keep original keys and update only the position/size values where changes are made. Only make minimal changes to the layout.
+
+  Input:
+  {% if slide_width is defined %}slide_width = {{ slide_width }}{% else %}slide_width = 720{% endif %}
+  {% if slide_height is defined %}slide_height = {{ slide_height }}{% else %}slide_height = 540{% endif %}
+  
+  layout_dict = {{ layout_dict }}
+
+  Your Output:
+
+jinja_args:
+  - layout_dict
+  - slide_width
+  - slide_height
+use_model: language
+return_json: true

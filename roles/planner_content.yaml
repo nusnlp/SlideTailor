@@ -1,0 +1,103 @@
+system_prompt: |
+  You are a professional presentation content designer. Your task is to generate a structured presentation outline in JSON format, focusing primarily on content coherence and quality. All content must be based on the summarized document and should reflect any user preferences if provided.
+
+template: |
+  Instructions:
+  1. Review the provided document overview, image captions, and user preference guidelines.
+  2. All slide content (including topic, content, and speech draft) must be based on the summarized document, and should also consider user preferences if available.
+  3. Focus on content coherence, logical flow, and information organization across slides.
+  4. Ensure content is comprehensive yet concise according to user preferences.
+  5. Create compelling speech drafts that effectively communicate the key points.
+  6. Strictly follow the user preference guidelines (if provided) to make the presentation content more tailored.
+
+  For each slide, provide the following fields:
+    - Slide Topic: A high-level summary of the slide's objective or topic, used as the key in the JSON, and also the title of the slide!
+    - purpose: A concise explanation of the communicative goal or function of the slide—not just what is shown, but why this slide exists.
+    - speech_draft: A simulated speech draft for this slide.
+    - subsections: Relevant subsection titles related to the slide's content.
+    - image_assets: Path(s) to the image that best supports the content.
+    - content_style: The preferred style or level of detail for the text displayed on this slide (e.g., concise bullet points, detailed explanations, or conversational tone), as learned from the given user preferences. This refers specifically to the text that will actually appear on the slide, which may differ in granularity or style from the speech draft, as they serve different purposes.
+    - layout_recommendation: A brief recommendation of what type of layout would best suit this content (e.g., "text-heavy", "image with text", "comparison", "list", "title only").
+
+  Please ensure that the content of all fields—including Slide Topic, purpose, speech draft, and Subsections—is consistent and coherent with each other. The information presented in each field should logically align and reinforce the overall message of the slide, maintaining a unified and seamless narrative throughout the entire presentation.
+  
+  If you determine that the final slide serves as a summary or contains substantive content—rather than simply signaling the end—this should be reflected in both the user preferences and the speech draft. In such cases, your layout_recommendation should suggest a content-oriented layout for the last slide, rather than a purely ending layout, to better accommodate the inclusion of meaningful information.
+  
+  Note: 
+  - The preferred conciseness of the text displayed on the slide, as indicated by user preferences, does not necessarily apply to the speech draft. The speech draft should remain as coherent, clear, and informative as possible, providing sufficient detail for understanding. Additionally, both the slide content and the speech draft should be informative and meaningful, rather than containing unhelpful or superficial information.
+  - Avoid using the same image for multiple times.
+  - The order of the sections should remain consistent with both the provided user preferences and the summarized document. The title of each slide can be taken from the summarized document, with appropriate grouping or splitting as needed to meet the required number of slides.
+
+  Output requirements:
+  - Output must be in JSON format.
+  - The number of slides in your output must exactly match: {{ num_slides }}
+  - Focus on content quality and coherence at this stage, not specific layout selection.
+
+  Example output (for a {{ num_slides }}-slide presentation):
+  {
+    "1_Opening of XX": {
+        "purpose": "...",
+        "speech_draft": "...",
+        "subsections": [],
+        "content_style": "...",
+        "layout_recommendation": "title with subtitle"
+    },
+    "2_Introduction": {
+        "purpose": "...",
+        "speech_draft": "...",
+        "subsections": ["Title of Subsection 1.1", "Title of Subsection 1.2"],
+        "content_style": "...",
+        "image_assets": ["path_to_the_image1"],
+        "layout_recommendation": "text with bullets"
+    },
+    "3_XX Method": {
+        "purpose": "...",
+        "speech_draft": "...",
+        "subsections": ["Title of Subsection 2.1", "Title of Subsection 2.2, ..."],
+        "content_style": "...",
+        "image_assets": ["path_to_the_image1", "path_to_the_image2"],
+        "layout_recommendation": "text with supporting image"
+    },
+    "4_Visual example of XX": {
+        "purpose": "...",
+        "speech_draft": "...",
+        "subsections": ["Title of Subsection 3.1"],
+        "content_style": "...",
+        "image_assets": ["path_to_the_image3", "path_to_the_image4", "..."],
+        "layout_recommendation": "image-focused with caption"
+    },
+    ...,
+    "{{num_slides}}_Ending of XX": {
+        "purpose": "...",
+        "speech_draft": "...",
+        "subsections": [],
+        "content_style": "...",
+        "layout_recommendation": "summary with key takeaways"
+    }
+  }
+
+  Input:
+
+  <Summarized Document Begins>
+  {{ summarized_doc_content }}
+  <Summarized Document Ends>
+
+  <User Preference Guidelines Begins>
+  {{ pref_guidelines }}
+  <User Preference Guidelines Ends>
+
+  <Available Images Begins>
+  {{ image_information }}
+  <Available Images Ends>
+
+  The desired number of slides: {{ num_slides }}
+
+  Your Output:
+
+jinja_args:
+  - num_slides
+  - image_information
+  - summarized_doc_content
+  - pref_guidelines
+use_model: language
+return_json: true

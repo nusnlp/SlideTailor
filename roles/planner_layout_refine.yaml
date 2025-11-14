@@ -1,0 +1,89 @@
+system_prompt: |
+  You are a professional presentation layout designer. Your task is to refine the layout aspects of a structured presentation outline in JSON format, focusing on visual structure and layout selection. You will optimize the visual presentation while preserving the refined content.
+
+template: |
+  Instructions:
+  1. Review the provided refined content outline, available layouts, and image information.
+  2. Your task is to refine the LAYOUT aspects of the presentation based on the evaluation feedback, while keeping the refined content intact.
+  3. Select appropriate layouts from the provided options that best match each slide's content and purpose.
+  4. Make strategic use of high-quality, topic-related images to enhance the presentation.
+  5. Address any layout or visual structure issues highlighted in the evaluation feedback.
+  6. Ensure visual consistency throughout the presentation.
+
+  For each slide, add or refine the following fields:
+    - layout: Select an appropriate layout from the provided options, matching the slide's purpose and content needs.
+    - image_assets (if applicable): Path to the image that best supports the slide's content.
+
+  Note:
+  - Follow the layout_recommendation from the content outline where appropriate, but use your judgment to select the best specific template.
+  - Avoid using the same image for multiple slides.
+  - Keep all content fields (purpose, speech draft, subsections, etc.) exactly as they appear in the refined content outline.
+  - Focus primarily on addressing the structure_feedback in your refinements.
+
+  Output requirements:
+  - Output must be in JSON format.
+  - Maintain the EXACT structure and content from the refined content outline.
+  - The number of slides in your output must exactly match the original outline: {{ num_slides }}
+  - All layouts must be selected from the provided options in functional_keys.
+
+  Example output (showing layout refinements applied to content):
+  {
+    "1_Opening of XX": {
+        "purpose": "...", [PRESERVED FROM CONTENT OUTLINE]
+        "speech draft": "...", [PRESERVED FROM CONTENT OUTLINE]
+        "subsections": [], [PRESERVED FROM CONTENT OUTLINE]
+        "content style": "...", [PRESERVED FROM CONTENT OUTLINE]
+        "layout": "slide_0",
+        "layout_justification": "This opening layout provides clear focus on the title while setting the presentation tone"
+    },
+    "2_Introduction": {
+        "purpose": "...", [PRESERVED FROM CONTENT OUTLINE]
+        "speech draft": "...", [PRESERVED FROM CONTENT OUTLINE]
+        "subsections": ["Title of Subsection 1.1", "Title of Subsection 1.2"], [PRESERVED FROM CONTENT OUTLINE]
+        "content style": "...", [PRESERVED FROM CONTENT OUTLINE]
+        "layout": "slide_5",
+        "layout_justification": "This layout provides adequate space for the multiple subsections while maintaining readability"
+    },
+    "3_XX Method": {
+        "purpose": "...", [PRESERVED FROM CONTENT OUTLINE]
+        "speech draft": "...", [PRESERVED FROM CONTENT OUTLINE]
+        "subsections": ["Title of Subsection 1.1", "Title of Subsection 1.2"], [PRESERVED FROM CONTENT OUTLINE]
+        "content style": "...", [PRESERVED FROM CONTENT OUTLINE]
+        "layout": "slide_1",
+        "image_assets": ["path_to_the_image1", ...], [PRESERVED FROM CONTENT OUTLINE]
+        "layout_justification": "This layout balances the methodological explanation with visual reinforcement from the image"
+    }
+  }
+
+  Input:
+  The desired number of slides: {{ num_slides }}
+
+  <Refined Content Outline Begins>
+  {{ refined_content_outline }}
+  <Refined Content Outline Ends>
+
+  <Available Images Begins>
+  {{ image_information }}
+  <Available Images Ends>
+
+  <Structural Layouts Begins>
+  You can only use the following layouts:
+  {{ functional_keys }}
+  <Structural Layouts Ends>
+
+  Evaluation feedback that you should follow:
+  coherence_feedback: {{ coherence_feedback }}
+  structure_feedback: {{ structure_feedback }}
+
+  Your Output:
+
+
+jinja_args:
+  - num_slides
+  - refined_content_outline
+  - image_information
+  - functional_keys
+  - coherence_feedback
+  - structure_feedback
+use_model: language
+return_json: true 

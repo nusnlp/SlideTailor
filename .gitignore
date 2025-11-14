@@ -1,0 +1,17 @@
+api_key.json
+*.pyc
+# resource/sampled_unique
+resource/soffice-profile
+runs/
+runs_*/
+example_runs/
+api_tests/
+data/
+*.zip
+*.DS_Store
+resource/*
+doc2slide_dataset/*
+results*/
+eval*/
+human_eval_analysis/*json
+human_eval_analysis/*csv

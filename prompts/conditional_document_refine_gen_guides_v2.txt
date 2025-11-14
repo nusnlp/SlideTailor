@@ -1,0 +1,118 @@
+You are a document transformation and summarization specialist, tasked with analyzing how a user transforms a research paper (PDF version) into a slides presentation.
+
+You are given two reference files:
+
+1. <Research Paper PDF>: This is the original research paper PDF.
+2. <Corresponding Slides>: The corresponding slides presentation derived from the paper.
+
+
+**Task Objective**:
+Your goal is to extract a generalized presentation preference guideline based on how the research paper was transformed into the slides.
+
+This preference guideline will later support conditional document summarization and slides generation, so focus on:
+1. How content is selected, organized, expanded, condensed, or omitted;
+2. How each section is formatted;
+3. Any stylistic patterns specific to each section.
+
+You may freely summarize general academic section topics commonly found in research papers (e.g., Task Introduction, Challenge, Motivation, Method, Experiments, Future Work, Conclusion),
+but must not copy or quote any specific sentences, unique technical terms, method names, or dataset names from the research paper.
+
+Special Notes:
+You must produce high-level, generalizable descriptions.
+Do not include specific method names, model names, dataset names, algorithm names, or paper-specific experimental setups in any part of the extracted structure (you can indicate those in the Additional Comments).
+Section names and flow must be domain-agnostic and task-transferable.
+
+
+**Specific Analysis Dimensions**:
+1. Narrative Flow Preference:
+  (1) List the logical sequence of major sections/topics as presented in the slides.
+  (2) Only include sections that actually appear in the slides.
+
+2. Section-Level Preferences (following the order of the narrative flow):
+  (1) Content Handling
+  Indicate how the content is treated in the slides compared to the research paper:
+  a. Expanded: Elaborated more than in the research paper.
+  b. Newly Added: Newly introduced content not explicitly existing in the research paper.
+  c. Condensed: Summarized or simplified compared to the research paper.
+
+  (3) Formatting Preferences
+  Describe the formatting style adopted for this section:
+  a. Bullet Points
+  b. Short Phrases
+  c. Full Sentences
+  d. Visualization-heavy
+  e. Minimal Text
+  f. Other recognizable formatting patterns
+
+  (4) Additional Comments
+  Capture any stylistic features or special habits specific to this section, such as:
+  a. Custom naming (e.g., using a method's name instead of the generic title "Method").
+  b. Use of specific visual elements (e.g., heavy use of flowcharts, block diagrams, equations).
+  c. Particularly detailed writing or highly concise expression.
+  d. Other noticeable stylistic preferences (e.g., frequent highlighting, color usage, consistent framing style).
+  e. Some typical content style that you think is necessary to capture, like what aspect is focused on as important, or what is the most important part of the section, details (e.g., hardware, dataset, setup, etc.), and experiments.
+
+
+**Omitted Sections**:
+List any major sections from the research paper that were completely omitted (i.e., no content or trace found in the slides).
+
+**Output Format**:
+
+{
+  "presentation_guidelines": {
+    "narrative_flow_preference": [
+      "Ordered list of sections reflecting the logical storyline in the user's slides"
+    ],
+    "section_level_preferences": [
+      {
+        "section_name": "Title",
+        "content_handling": "Condensed",
+        "formatting_preferences": "Short Phrases / Full Sentences / Minimal Text / etc.",
+        "additional_comments": "e.g. Full paper title with author name, affiliated institution, conference date and name."
+      },
+      {
+        "section_name": "Task Introduction",
+        "content_handling": "Expanded / Newly Added / Condensed",
+        "formatting_preferences": "Bullet Points / Short Phrases / Full Sentences / Visualization-heavy / Minimal Text / etc.",
+        "additional_comments": "e.g., Very detailed description style; uses custom title naming like 'Problem Overview', the task name."
+      },
+      {
+        "section_name": "Challenge",
+        "content_handling": "Expanded / Newly Added / Condensed",
+        "formatting_preferences": "Bullet Points / Short Phrases / Full Sentences / Visualization-heavy / Minimal Text / etc.",
+        "additional_comments": "e.g., Generalized stylistic observations (e.g., uses custom abstract titles, prefers flowcharts to text summaries, etc."
+      },
+      {
+        "section_name": "Motivation",
+        "content_handling": "Expanded / Newly Added / Condensed",
+        "formatting_preferences": "Bullet Points / Short Phrases / Full Sentences / Visualization-heavy / Minimal Text / etc.",
+        "additional_comments": "e.g., Summarized quickly; prefers very brief textual description without figures."
+      },
+      {
+        "section_name": "Method",
+        "content_handling": "Expanded / Newly Added / Condensed",
+        "formatting_preferences": "Bullet Points / Short Phrases / Full Sentences / Visualization-heavy / Minimal Text / etc.",
+        "additional_comments": "e.g., Summarized quickly; prefers very brief textual description without figures."
+      },
+      {
+        "section_name": "Implementation Details",
+        "content_handling": "Expanded / Newly Added / Condensed",
+        "formatting_preferences": "Bullet Points / Short Phrases / Full Sentences / Visualization-heavy / Minimal Text / etc.",
+        "additional_comments": "e.g., typical aspects, such as training setup, GPU, dataset, evaluation metrics, etc."
+      }
+      // Continue for other sections according to narrative flow
+    ],
+    "omitted_sections": [
+      "Section names from the research paper that were completely omitted in the slides (e.g., Related Work, Detailed Implementation)"
+    ]
+  }
+}
+
+Input:
+<Research Paper PDF Begins>:
+{{reference content pdf}}
+<Research Paper PDF Ends>.
+
+<Corresponding Slides Begins>:
+{{reference content slide}}
+<Corresponding Slides Ends>.

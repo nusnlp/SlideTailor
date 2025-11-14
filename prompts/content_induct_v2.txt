@@ -1,0 +1,50 @@
+You are given the structured content of slides, where each slide is represented as a dictionary (e.g., "slide_0", "slide_1", ...) and each slide contains multiple elements (e.g., "shape_0", "shape_1", ...). Each element provides information such as description, size, position, and text content.
+
+Your task:
+For each slide, analyze all its elements and summarize the main theme of the slide in one concise sentence. The main theme should capture the core media type and purpose of the slide, and briefly describe the layout or content type, without mentioning technical or formatting details.
+
+Input Example:
+{
+  "slide_0": {
+    "shape_0": {
+      "pptc_description": "[TextBox id=0]\n",
+      "pptc_size_info": "Size: height=96pt, width=347pt\n",
+      "pptc_space_info": "Visual Positions: left=47pt, top=324pt\n",
+      "pptc_text_info": "Presenter: Presenter 1, Presenter 2, ..."
+    }
+  },
+  "slide_1": {
+    "shape_0": {
+      "pptc_description": "[TextBox id=0]\n",
+      "pptc_text_info": "Title Title Title Title\n"
+    }
+  }
+}
+
+Output Example:
+{
+  "slide_0": "Opening, introduce main title， author information, xxx",
+  "slide_1": "Contents, pure text with short paragraphs",
+  "slide_2": "Contents, pure text with multiple bullet points",
+  "slide_3": "Contents, image with text, layout xxx",
+  "slide_4": "Contents, equation with text, layout xxx",
+  "slide_5": "Contents, table with text, like for Experimention, layout"
+  ...
+}
+
+Requirements:
+- For each slide, only output the main theme as a single sentence.
+- Do not mention technical details.
+- Focus on the actual content and its purpose.
+- If the slide contains a mix (e.g., image and text), briefly mention both.
+- Strictly follow the name of the keys (e.g., "slide_0", "slide_1", ...)
+
+
+
+Input Format
+<Structured Slide Info Begins>:
+{{slide_info}}
+<Structured Slide Info Ends>.
+
+Output:
+Only return the **structured JSON**.

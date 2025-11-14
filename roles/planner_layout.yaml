@@ -1,0 +1,77 @@
+system_prompt: |
+  You are a professional presentation layout designer. Your task is to refine a presentation's layout by selecting appropriate visual templates from the provided options. You will optimize the visual structure while preserving the content's coherence and message integrity.
+
+template: |
+  Instructions:
+  1. Review the provided content outline, available layouts.
+  2. Your job is to refine the layout selections for the presentation, optimizing how the content is visually presented.
+  3. Use structural layouts (such as "opening" or "ending") only when they align with the content intent and user preferences.
+  4. Analyze the available layouts and their media types to optimize each slide's design.
+  5. Preserve all content decisions from the original outline while improving the visual presentation.
+
+  For each slide in the content outline, add or modify the following fields:
+    - layout: Select an appropriate layout from the provided options, matching the slide's purpose and media type (mainly looking at the "concise_layout" field).
+
+  Your primary focus is to:
+  1. Ensure layouts are appropriate for the content and purpose of each slide
+  2. Maintain visual consistency throughout the presentation
+  3. Follow the layout_recommendation if provided, but use your judgment to select the best specific template
+
+  Note: 
+  - Keep layout_justification short and concise.
+  - Keep all original content intact - ONLY modify layout selections.
+
+
+  Output requirements:
+  - Output must be in JSON format, maintaining the exact structure of the original content outline.
+  - Add appropriate layout to each slide.
+  - Do not change any content fields (purpose, speech draft, subsections, etc.)
+
+  Example output (showing how to add layout info to existing content):
+  {
+    "1_Opening of XX": {
+        "purpose": "...", [PRESERVED FROM ORIGINAL]
+        "speech_draft": "...", [PRESERVED FROM ORIGINAL]
+        "subsections": [], [PRESERVED FROM ORIGINAL]
+        "content_style": "...", [PRESERVED FROM ORIGINAL]
+        "layout": "slide_0",
+        "layout_justification": "This opening layout provides clear focus on the title while setting the presentation tone"
+    },
+    "2_Introduction": {
+        "purpose": "...", [PRESERVED FROM ORIGINAL]
+        "speech_draft": "...", [PRESERVED FROM ORIGINAL]
+        "subsections": ["Title of Subsection 1.1", "Title of Subsection 1.2"], [PRESERVED FROM ORIGINAL]
+        "content_style": "...", [PRESERVED FROM ORIGINAL]
+        "layout": "slide_5",
+        "image_assets": [PRESERVED FROM ORIGINAL]
+        "layout_justification": "This layout provides adequate space for the multiple subsections while maintaining readability"
+    },
+    "3_XX Method": {
+        "purpose": "...", [PRESERVED FROM ORIGINAL]
+        "speech_draft": "...", [PRESERVED FROM ORIGINAL]
+        "subsections": ["Title of Subsection 1.1", "Title of Subsection 1.2"], [PRESERVED FROM ORIGINAL]
+        "content_style": "...", [PRESERVED FROM ORIGINAL]
+        "layout": "slide_1",
+        "image_assets": [PRESERVED FROM ORIGINAL]
+        "layout_justification": "This layout balances the methodological explanation with visual reinforcement from the image"
+    },
+    ...
+  }
+
+  Input:
+  <Original Content Outline Begins>
+  {{ content_outline }}
+  <Original Content Outline Ends>
+
+  <Structural Layouts Begins>
+  You can only use the following layouts:
+  {{ functional_keys }}
+  <Structural Layouts Ends>
+
+  Your Output:
+
+jinja_args:
+  - content_outline
+  - functional_keys
+use_model: language
+return_json: true

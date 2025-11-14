@@ -1,0 +1,100 @@
+system_prompt: |
+  You are a professional presentation content designer. Your task is to refine the content aspects of a structured presentation outline in JSON format, focusing primarily on content coherence and quality. All content must be based on the summarized document and should reflect any user preferences if provided.
+
+template: |
+  Instructions:
+  1. Review the provided document overview, image captions, user preference guidelines, and the original outline.
+  2. Your task is to refine the CONTENT aspects of the presentation based on the evaluation feedback, while keeping the overall structure intact.
+  3. Focus on improving content coherence, logical flow, and information organization across slides.
+  4. Ensure content is comprehensive yet concise according to user preferences.
+  5. Refine speech drafts to more effectively communicate the key points.
+  6. Address any content-related issues highlighted in the evaluation feedback.
+
+  For each slide, refine the following fields:
+    - Slide Topic: A high-level summary of the slide's objective or topic, used as the key in the JSON, and also the title of the slide!
+    - purpose: A concise explanation of the communicative goal or function of the slide—not just what is shown, but why this slide exists.
+    - speech draft: A simulated speech draft for this slide.
+    - subsections: Relevant subsection titles related to the slide's content.
+    - content style: The preferred style or level of detail for the text displayed on this slide.
+    - image_assets: Path(s) to the image that best supports the content.
+    - layout_recommendation: A brief recommendation of what type of layout would best suit this content (e.g., "text-heavy", "image with text", "comparison", "list", "title only").
+
+  Please ensure that the content of all fields is consistent and coherent with each other. The information presented in each field should logically align and reinforce the overall message of the slide, maintaining a unified and seamless narrative throughout the entire presentation.
+  
+  If the final slide serves as a summary or contains substantive content—rather than simply signaling the end—this should be reflected in the speech draft. In such cases, your layout_recommendation should suggest a content-oriented layout for the last slide, rather than a purely ending layout.
+  
+  Note: 
+  - The speech draft should remain coherent, clear, and informative, providing sufficient detail for understanding.
+  - Avoid using the same image for multiple slides.
+  - The order of the sections should remain consistent with both the provided user preferences and the summarized document.
+  - Focus primarily on addressing the coherence_feedback in your refinements.
+
+  Output requirements:
+  - Output must be in JSON format.
+  - The number of slides in your output must exactly match the original outline: {{ num_slides }}
+  - Focus on improving content quality and coherence, not on layout selection.
+  - Maintain the same slide topics/titles as the original outline unless the feedback specifically suggests changing them.
+  - Do NOT include "layout" field - this will be added in a separate refinement stage.
+
+  Example output (for a refined presentation):
+  {
+    "1_Opening of XX": {
+        "purpose": "...",
+        "speech draft": "...",
+        "subsections": [],
+        "content style": "...",
+        "layout_recommendation": "title with subtitle"
+    },
+    "2_Introduction": {
+        "purpose": "...",
+        "speech draft": "...",
+        "subsections": ["Title of Subsection 1.1", "Title of Subsection 1.2"],
+        "content style": "...",
+        "image_assets": ["path_to_the_image1"],
+        "layout_recommendation": "text with bullets"
+    },
+    ...,
+    "{{num_slides}}_Ending of XX": {
+        "purpose": "...",
+        "speech draft": "...",
+        "subsections": [],
+        "content style": "...",
+        "layout_recommendation": "summary with key takeaways"
+    }
+  }
+
+  Input:
+  The desired number of slides: {{ num_slides }}
+
+  <Summarized Document Begins>
+  {{ summarized_doc_content }}
+  <Summarized Document Ends>
+
+  <User Preference Guidelines Begins>
+  {{ pref_guidelines }}
+  <User Preference Guidelines Ends>
+
+  <Available Images Begins>
+  {{ image_information }}
+  <Available Images Ends>
+
+  Original outline:
+  {{ original_outline }}
+
+  Evaluation feedback that you should follow:
+  coherence_feedback: {{ coherence_feedback }}
+  structure_feedback: {{ structure_feedback }}
+
+  Your Output:
+
+
+jinja_args:
+  - num_slides
+  - summarized_doc_content
+  - pref_guidelines
+  - image_information
+  - original_outline
+  - coherence_feedback
+  - structure_feedback
+use_model: language
+return_json: true 

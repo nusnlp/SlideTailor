@@ -1,0 +1,111 @@
+system_prompt: |
+  You are a professional presentation designer. Your task is to generate a structured presentation outline in JSON format, strictly using only the provided layouts. All content must be based on the summarized document and should reflect any user preferences if provided.
+
+template: |
+  Instructions:
+  1. Review the provided document overview, image captions, user preference guidelines, and available layouts.
+  2. All slide content (including topic, content, and speech draft) must be based on the summarized document, and should also consider user preferences if available.
+  3. Use structural layouts only when they align with the content intent and user preferences. For example, the ending slide does not have to be a generic "Thank You" page—it can be a summary, results, or future directions with more text or images.
+  4. Analyze the available layouts and their media types to optimize each slide's design.
+  5. Make good use of high-quality, topic-related images (for layouts with media_type=image) to enhance the presentation.
+  6. Strictly follow the user preference guidelines (if provided) to make the presentation more tailored.
+
+  For each slide, provide the following fields:
+    - Slide Topic: A high-level summary of the slide's objective or topic, used as the key in the JSON, and also the title of the slide!
+    - Layout: Select an appropriate layout from the provided options, matching the slide's purpose and media type (mainly looking at the "concise_layout" field, the images used should be aligned with the image_num field!!!!!!).
+    - Purpose: A concise explanation of the communicative goal or function of the slide—not just what is shown, but why this slide exists.
+    - Speech draft: A simulated speech draft for this slide.
+    - Subsections: Relevant subsection titles related to the slide's content.
+    - Content style: The preferred style or level of detail for the text displayed on this slide (e.g., concise bullet points, detailed explanations, or conversational tone), as learned from the given user preferences. This refers specifically to the text that will actually appear on the slide, which may differ in granularity or style from the speech draft, as they serve different purposes.
+    - image assets (if applicable): Path to the image.
+    - Corresponding image caption (if applicable): A suitbale caption describing the image, can be modified or copied from the original information of the selected image.
+  
+  Please ensure that the content of all fields—including Slide Topic, Layout, Purpose, Speech draft, and Subsections—is consistent and coherent with each other. The information presented in each field should logically align and reinforce the overall message of the slide, maintaining a unified and seamless narrative throughout the entire presentation.
+  
+  If you determine that the final slide serves as a summary or contains substantive content—rather than simply signaling the end—this should be reflected in both the user preferences and the speech draft. In such cases, you should select a content-oriented layout for the last slide, rather than a purely ending layout, to better accommodate the inclusion of meaningful information.
+  
+  Note: The preferred conciseness of the text displayed on the slide, as indicated by user preferences, does not necessarily apply to the speech draft. The speech draft should remain as coherent, clear, and informative as possible, providing sufficient detail for understanding. Additionally, both the slide content and the speech draft should be informative and meaningful, rather than containing unhelpful or superficial information.
+
+  Note: The order of the sections should remain consistent with both the provided user preferences and the summarized document. The title of each slide can be taken from the summarized document, with appropriate grouping or splitting as needed to meet the required number of slides.
+
+
+  Output requirements:
+  - Output must be in JSON format.
+  - The number of slides in your output must exactly match: {{ num_slides }}
+  - Layout selection should be guided by the intent of the content and user preferences, rather than by fixed position. Use structural layouts such as "opening" or "ending" only when they best serve the communicative purpose of the slide. Content slides should utilize the most appropriate content layouts available.
+
+  Example output (for a 5-slide presentation):
+  {
+     "Opening of XX": {
+        "layout": "slide_0",
+        "subsections": [],
+        "Purpose": "...",
+        "Speech draft": "...",
+        "Content style": "..."
+     },
+     "Introduction": {
+        "layout": "slide_5",
+        "subsections": ["Title of Subsection 1.1", "Title of Subsection 1.2"],
+        "Purpose": "...",
+        "Speech draft": "...",
+        "Content style": "..."
+    },
+     "XX Method": {
+        "layout": "slide_1",
+        "subsections": ["Title of Subsection 1.1", "Title of Subsection 1.2"],
+        "Purpose": "...",
+        "Speech draft": "...",
+        "Content style": "...",
+        "image_assets": ["path_to_the_image1", ...]
+        "Corresponding image caption": "A visual example showing the main framework of xx. Specifically, xxx"
+    },
+     "Visual example of XX": {
+        "layout": "slide_2",
+        "subsections": ["Title of Subsection 1.1", "Title of Subsection 1.2"],
+        "Purpose": "...",
+        "Speech draft": "...",
+        "Content style": "...",
+        "image_assets": ["path_to_the_image1", ...]
+        "Corresponding image caption": "A visual example showing the main process and results of XX."
+    },
+    ...,
+    "Ending of XX": {
+        "layout": "slide_6",
+        "subsections": [],
+        "Purpose": "...",
+        "Speech draft": "...",
+        "Content style": "..."
+    }
+  }
+
+  Input:
+  The desired number of slides: {{ num_slides }}
+
+
+  <Summarized Document Begins>:
+  {{ summarized_doc_content }}
+  <Summarized Document Ends>.
+
+  <User Preference Guidelines Begins>:
+  {{ pref_guidelines }}
+  <User Preference Guidelines Ends>.
+
+  <Available Images Begins>:
+  {{ image_information }}
+  <Available Images Ends>.
+
+  <Structural Layouts Begins>:
+  You can only use the following layouts:
+  {{ functional_keys }}
+  <Structural Layouts Ends>.
+
+  Your Output:
+
+jinja_args:
+  - num_slides
+  - image_information
+  - functional_keys
+  - summarized_doc_content
+  - pref_guidelines
+use_model: language
+return_json: true

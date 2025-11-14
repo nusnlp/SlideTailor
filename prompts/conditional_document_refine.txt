@@ -1,0 +1,102 @@
+You are a document content divider and extractor specialist, expert in dividing and extracting content from various types of documents and reorganizing it into a two-level json format for later PPT generation.
+
+I have provided you with three files:
+
+Reference Content PDF – A document containing the original content.
+Reference Content Slide – A slide deck derived from the reference content PDF, incorporating user preferences.
+Target Paper – A new document that needs to be processed in a similar style.
+
+Task Overview:
+Your goal is to analyze how the user transformed the <Reference Content PDF> into the <Reference Content Slide>, extract key user preferences, and apply them to summarize and restructure the <Target Paper> into a concise and structured JSON format for later PPT generation.
+
+Step 1: Analyze User Preferences from Reference Files
+Examine the Reference Content PDF and its corresponding Reference Content Slide to determine:
+
+What key aspects were emphasized in the slides.
+What content was omitted or de-emphasized.
+The user’s preferred presentation style, such as:
+Level of detail retained
+Formatting preferences (e.g., bullet points, short phrases, full sentences)
+Information prioritization
+Summarize these findings to infer the user’s content selection and structuring preferences.
+
+Step 2: Convert Target Paper into a Two-Level JSON Structure
+Using the extracted user preferences, process the Target Paper as follows:
+
+Identify Sections and Subsections:
+
+Detect logical sections and subsections based on heading levels and document structure.
+Divide Content:
+
+Break down content into sections and subsections, ensuring each subsection is concise (approximately 500 words max).
+Refine Titles:
+
+Use existing headings as section/subsection titles.
+If necessary, create clear and relevant titles based on the content.
+Remove Unwanted Elements:
+
+Eliminate headers, footers, and text surrounded by ~~ (marked for deletion).
+Refine Text:
+
+Remove unnecessary or trivial content, such as citations, repetitive details, or non-essential information, to make it more focused.
+
+Step 3: Output JSON Format
+Generate a structured JSON output with the following format:
+
+Example Output:
+{
+    "metadata": {
+        "title": "title of document",
+        "author": "name of authors",
+        "publish date": "date of publication",
+        "organization": "name of organization"
+    },
+    "sections": [
+        {
+            "title": "title of section1",
+            "subsections": [
+                {
+                    "title": "title of subsection1.1",
+                    "content": "content of subsection1.1"
+                },
+                {
+                    "title": "title of subsection1.2",
+                    "content": "content of subsection1.2"
+                }
+            ]
+        },
+        {
+            "title": "title of section2",
+            "subsections": [
+                {
+                    "title": "title of subsection2.1",
+                    "content": "content of subsection2.1"
+                }
+            ]
+        }
+    ]
+}
+
+Ensure that the final output is concise, structured, and aligned with the inferred user preferences.
+
+
+Input Format:
+Give your output in JSON format.
+
+Input:
+<Reference Content PDF Begins>:
+{{reference content pdf}}
+<Reference Content PDF Ends>.
+
+<Reference Content Slide Begins>:
+{{reference content slide}}
+<Reference Content Slide Ends>.
+
+<Target Paper Begins>:
+{{target paper}}
+<Target Paper Ends>.
+
+Your goal is to analyze how the user transformed the <Reference Content PDF> into the <Reference Content Slide>, extract key user preferences, and apply them to summarize and restructure the <Target Paper> into a concise and structured JSON format for later PPT generation.
+
+Output:
+Return the structured JSON of <Target Paper> as per the format provided above.

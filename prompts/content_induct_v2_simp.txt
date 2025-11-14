@@ -1,0 +1,96 @@
+You are given two JSON objects: con_scheme and details.
+
+Your task is to generate a new JSON object (updated content_schema) by matching the keys in con_scheme to the most relevant shapes in details. For each key in con_scheme, find the most relevant shape in details (mainly based on content similarity, such as matching text). Then, add the shape's pptc_size_info and pptc_space_info (and other useful shape info if needed) into the corresponding entry in con_scheme, and output the merged result as a new content_schema.
+
+Rules:
+1. For each key in con_scheme (e.g., "main_title", "presenters"), find the most relevant shape in details (mainly based on content similarity, such as matching text).
+2. For each matched key, add the following fields from the shape in details to the corresponding entry in con_scheme:
+    - pptc_size_info
+    - pptc_space_info
+    (You may also add other useful fields from the shape if needed.)
+3. The final output should be a new JSON object, where:
+    - Keys are from con_scheme
+    - Values are the original content from con_scheme, with the additional fields from the matched shape in details
+4. If a key in con_scheme cannot find a matching shape in details, just keep the original content for that key.
+5. Only output the resulting JSON, with no extra explanation.
+
+Example Input:
+
+con_scheme:
+{
+  "main_title": {
+    "description": "The primary title that summarizes the presentation or slide's topic",
+    "type": "text",
+    "data": [
+      "Presentation Title is Presentation Title is Presentation Title"
+    ]
+  },
+  "presenters": {
+    "description": "A list of the individuals responsible for creating or presenting the slide",
+    "type": "text",
+    "data": [
+      "Presenter: Presenter 1, Presenter 2, Presenter 3, Presenter 1, Presenter 2, Presenter 3"
+    ]
+  }
+}
+
+details:
+{
+  "shape_0": {
+    "pptc_description": "[TextBox id=0]\n",
+    "pptc_size_info": "Size: height=96pt, width=347pt\n",
+    "pptc_space_info": "Visual Positions: left=47pt, top=324pt\n",
+    "pptc_text_info": "Presenter: Presenter 1, Presenter 2, Presenter 3, Presenter 1, Presenter 2, Presenter 3",
+    "shape_idx": 0
+  },
+  "shape_1": {
+    "pptc_description": "[FreeShape id=1]\n",
+    "pptc_size_info": "Size: height=87pt, width=3pt\n",
+    "pptc_space_info": "Visual Positions: left=36pt, top=169pt\n",
+    "pptc_text_info": "[Text id=1]\n",
+    "shape_idx": 1
+  },
+  "shape_2": {
+    "pptc_description": "[TextBox id=2]\n",
+    "pptc_size_info": "Size: height=152pt, width=402pt\n",
+    "pptc_space_info": "Visual Positions: left=39pt, top=142pt\n",
+    "pptc_text_info": "Presentation Title is Presentation Title is Presentation Title\n",
+    "shape_idx": 2
+  }
+}
+
+Example Output:
+
+{
+  "main_title": {
+    "description": "The primary title that summarizes the presentation or slide's topic",
+    "type": "text",
+    "data": [
+      "Presentation Title is Presentation Title is Presentation Title"
+    ],
+    "pptc_size_info": "Size: height=152pt, width=402pt\n",
+    "pptc_space_info": "Visual Positions: left=39pt, top=142pt\n"
+  },
+  "presenters": {
+    "description": "A list of the individuals responsible for creating or presenting the slide",
+    "type": "text",
+    "data": [
+      "Presenter: Presenter 1, Presenter 2, Presenter 3, Presenter 1, Presenter 2, Presenter 3"
+    ],
+    "pptc_size_info": "Size: height=96pt, width=347pt\n",
+    "pptc_space_info": "Visual Positions: left=47pt, top=324pt\n"
+  }
+}
+
+Only output the resulting JSON. Do not include any explanations or extra text.
+
+Actual Input:
+<Con_scheme begin>
+{{con_scheme}}
+<Con_scheme end>
+
+<Details begin>
+{{details}}
+<Details end>
+
+Please generate a new json based on the above input:
