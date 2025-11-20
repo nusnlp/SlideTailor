@@ -225,3 +225,101 @@ def stage_presentation_generation(
         print("[ERROR] Failed to generate PPT")
     
     return output_pptx_path, presentation_outline
+
+def stage_presentation_refinement(
+    initial_pptx_path: str,
+    ref_ppt_path: str,
+    generation_config,
+    pptx_config,
+    doc_json: Dict,
+    template_presentation: Presentation,
+    slide_induction: Dict,
+    presentation_outline: Dict,
+    pref_guidelines: Dict,
+    images: Dict,
+    num_slides: int,
+    vision_model,
+    language_model,
+    text_model,
+    project_id,
+    # refinements
+    max_refine_iterations: int = 2,
+    # searched based refinements
+    sample_search: bool = False,
+    num_samples: int = 3
+) -> str:
+    """
+    Stage 6: Presentation refinement - Iteratively refine the generated presentation
+    
+    Args:
+        initial_pptx_path: Path to the initial generated presentation
+        ref_ppt_path: Path to reference presentation
+        generation_config: Configuration for generation
+        doc_json: Parsed document structure
+        template_presentation: Template presentation object
+        slide_induction: Slide induction data
+        pref_guidelines: Presentation preference guidelines
+        images: Images from the document
+        num_slides: Number of slides to generate
+        vision_model: Vision model
+        language_model: Language model
+        text_model: Text embedding model
+        max_refine_iterations: Maximum number of refinement iterations
+        
+    Returns:
+        str: Path to the final refined presentation
+    """
+    print("[STAGE] Presentation Refinement")
+    
+    # Initialize refinement agent
+    refinement_loop = PPTRefinementLoop(
+        language_model=language_model,
+        vision_model=vision_model,
+        text_model=text_model,
+        max_refine_iterations=max_refine_iterations
+    )
+    
+    if sample_search:
+        
+        print("[STAGE] Human-like Presentation Refinement with Sample Search")
+        
+        final_pptx_path = refinement_loop.run_refinement_search_loop(
+            initial_pptx_path=initial_pptx_path,
+            init_slide_induction=slide_induction,
+            init_presentation_outline=presentation_outline,
+            template_presentation=template_presentation,
+            generation_config=generation_config,
+            pptx_config=pptx_config,
+            doc_json=doc_json,
+            pref_guidelines=pref_guidelines,
+            images=images,
+            num_slides=num_slides,
+            num_samples=num_samples
+        )
+        
+    else:
+        
+        print("[STAGE] Human-like Presentation Refinement")
+        
+        # Run refinement loop
+        final_pptx_path = refinement_loop.run_refinement_loop(
+            initial_pptx_path=initial_pptx_path,
+            init_slide_induction=slide_induction,
+            init_presentation_outline=presentation_outline,
+            template_presentation=template_presentation,
+            generation_config=generation_config,
+            pptx_config=pptx_config,
+            doc_json=doc_json,
+            pref_guidelines=pref_guidelines,
+            images=images,
+            num_slides=num_slides
+            # ref_ppt_path=ref_ppt_path,
+        )
+    
+    if final_pptx_path is not None:
+        print("[STAGE] Refinement Complete")
+        print(f"[INFO] Final refined presentation stored at {final_pptx_path}")
+    else:
+        print("[ERROR] Refinement failed")
+        
+    return final_pptx_path

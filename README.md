@@ -37,7 +37,7 @@ conda create -n slidetailor python=3.11
 ```sh
 pip install -r requirements.txt
 ```
-3. Prepare your API key (named as api_keys.json)
+3. Prepare your API key (named as api_key.json)
 
 ```
 {
