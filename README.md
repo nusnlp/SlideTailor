@@ -31,7 +31,7 @@ This repository contains the official implementation of the AAAI 2026 paper "Sli
 ## 🛠️ Environment
 1. Create a new conda environment
 ```sh
-conda create -n pptagent python=3.11
+conda create -n slidetailor python=3.11
 ```
 2. Install dependency
 ```sh
