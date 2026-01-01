@@ -17,10 +17,12 @@
 
   <h3 align="center"> 
   <a href="https://arxiv.org/abs/2512.20292">📄 Paper</a> &nbsp; | &nbsp;
+    <a href="https://huggingface.co/papers/2512.20292">🤗 Daily paper</a> &nbsp; | &nbsp;
   <a href="https://huggingface.co/datasets/yyyang/SlideTailor-PSP-dataset">🤗 Dataset</a> &nbsp; | &nbsp;
   <a href="https://drive.google.com/drive/folders/1N8p1A4eW8Nrrc2fN5NnIutG0og9u_GIy?usp=sharing">🖼️ Poster</a> &nbsp; | &nbsp;
   <a href="https://www.youtube.com/watch?v=NT5kWE6j_Vw">▶️ Video</a> &nbsp; | &nbsp;
-<a href="https://drive.google.com/drive/folders/1N8p1A4eW8Nrrc2fN5NnIutG0og9u_GIy?usp=sharing">▶️ Slides</a> &nbsp;
+<a href="https://drive.google.com/drive/folders/1N8p1A4eW8Nrrc2fN5NnIutG0og9u_GIy?usp=sharing">▶️ Slides</a> &nbsp; | &nbsp;
+<a href="https://x.com/alexzeng1206/status/2005535755003904071">▶️ X (Twitter)</a> &nbsp;
 </a> </h3>
 
 
